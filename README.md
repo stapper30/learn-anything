@@ -5,6 +5,10 @@
 > ⚠️ This project is not currently deployed. It is shared as a codebase only.
 
 ---
+Demo Video:
+https://github.com/user-attachments/assets/576a6d0a-ddb6-4749-90b7-514ca93b96a9
+
+---
 
 ## 🧠 How It Works 
 Upload your course book or your slides for your course. The program extracts the text and uses the OpenAI API to break the content down into chunkable concepts with examples and explanations. You can then interact with these concepts and ask questions to further your understanding.

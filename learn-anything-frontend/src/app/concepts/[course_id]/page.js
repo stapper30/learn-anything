@@ -2,6 +2,7 @@
 import { useState, useEffect, use } from 'react';
 
 import Concept from "@/components/Concept";
+import SideNav from "@/components/SideNav";
 import Test from "@/components/Test";
 import { useAuth } from "@/context/AuthContext";
 import AuthChecker from "@/components/AuthChecker";
@@ -84,23 +85,15 @@ export default function ConceptsPage({ params }) {
             </div>
             <div className="container mx-auto p-4 max-w-6xl">
                 <div className="flex gap-6">
-                    <div className="w-1/4">
-                        <div className="bg-gray-200 p-4 rounded-lg sticky top-4 max-h-[calc(100vh-2rem)] overflow-hidden flex flex-col">
-                            <h2 className="text-xl font-semibold mb-4">Navigation</h2>
-                            <ul className="space-y-2 flex-1 overflow-y-auto">
-                                {concepts.concepts.map((concept) => (
-                                    <li key={concept.id}>
-                                        <a href={`#${concept.id}`} className="text-blue-600 hover:underline">
-                                            {concept.title}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
+                    <SideNav concepts={concepts} />
 
                     <div className="w-3/4">
-                        <h1 className="text-3xl font-bold mb-6">Concepts {title ? ("- " + title) : null}</h1>
+                        <div className="bg-white p-4 rounded-lg shadow-md mb-6">
+                            <h1 className="text-3xl font-bold mb-6">Concepts {title ? ("- " + title) : null}</h1>
+                            <p className="mb-6 text-gray-700">
+                                Work your way through each concept. When you've understood each one, create some Anki flashcards to solidify your knowledge. Have fun!
+                            </p>
+                        </div>
                         {concepts.concepts.map((concept) => (
                             <Concept
                                 id={concept.id}

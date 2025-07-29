@@ -24,8 +24,15 @@ class Concept(BaseModel):
     examples: list[str]
     explanation: str
     
-class OutputText(BaseModel):
+class OutputFormatConcept(BaseModel):
     concepts: list[Concept]
+    
+class Flashcard(BaseModel):
+    question: str
+    answer: str
+    
+class OutputFormatFlashcard(BaseModel):
+    flashcards: list[Flashcard]
     
 def chunk_text(text, max_tokens=300):
     tokenizer = tiktoken.get_encoding("cl100k_base")
@@ -171,7 +178,7 @@ def summarise_chunk(chunk):
             "role": "user",
             "content": chunk
         }],
-        text_format=OutputText,       
+        text_format=OutputFormatConcept,       
     )
     
     return json.loads(response.output_text)
@@ -206,6 +213,42 @@ def ask_gpt(question, context):
     )
     
     return response.output_text
+
+def generate_flashcards(concept):
+    """
+    Generate flashcards for a given concept.
+    
+    Args:
+        concept (Concept): The concept to generate flashcards for
+        
+    Returns:
+        list[dict]: List of flashcards with question and answer
+    """
+    flashcards = ""
+    
+    examples = "\n".join(concept.examples)
+    print(f"Generating flashcards for concept: {concept.title}")
+    print(f"Concept Examples: {examples}")
+    
+    response=client.responses.parse(
+        model="gpt-4.1-mini",
+        input=
+        [{        
+         'role': "system",
+         "content":"""You are an expert in the relevant subject matter. Generate multiple flashcards for the given concept. Each flashcard should have a question and an answer. The questions should be clear and allow the reader to understand the answer to their question well. Flashcards should only ask about one little idea, not multiple linked ideas.Remember to make sure that the basic concepts are covered in the flashcards - the user can just get rid of them later if they already know.
+         Ensure that everything that is mentioned in the content is included in the flashcards. You will probably have to do at the very least three flashcards. Ensure that you also include things mentioned in the concept examples. Leave nothing out these, should be thorough.
+         """
+        },
+        { 
+            "role": "user",
+            "content": concept.explanation + "\n\n" +
+            f"Examples:\n{examples}\n\n"
+        }],
+        text_format=OutputFormatFlashcard,       
+    )
+    print(response.output_text)
+    
+    return response.output_parsed
 
 # chunk = extract_text_from_pdf_pages(Path(r"api\uploads\SE284 2025 coursebook.pdf"), start_page=6, end_page=19)
 

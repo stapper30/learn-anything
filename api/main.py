@@ -403,6 +403,34 @@ async def get_courses(
     courses = result.scalars().all()
     return courses
 
+@app.get("/concepts/{concept_id}/generate_flashcards/")
+async def generate_flashcards(
+    concept_id: str,  # Assuming concept_id is a UUID string
+    current_user: Annotated[models.User, Depends(get_current_active_user)],
+    db: AsyncSession = Depends(get_db),
+):
+    print("Current User ID:", current_user.id)
+    print("Generating flashcards for concept ID:", concept_id)
+    
+    result = await db.execute(select(models.Concept).where(models.Concept.id == concept_id, models.Concept.fk_user == current_user.id))
+    concept = result.scalar_one_or_none()
+    
+    if not concept:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Concept not found or you do not have permission to access it"
+        )
+    
+    flashcards = file_utilities.generate_flashcards(concept)
+    
+    print("Flashcards generated:", flashcards)
+    
+    return {
+        "concept_id": concept.id,
+        "title": concept.title,
+        "flashcards": flashcards
+    }
+
 @app.post("/ask/")
 async def ask_question(
     request: dict,

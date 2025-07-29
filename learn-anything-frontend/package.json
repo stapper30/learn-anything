@@ -1,0 +1,26 @@
+{
+  "name": "learn-anything-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@tailwindcss/typography": "^0.5.16",
+    "autoprefixer": "^10.4.21",
+    "cd": "^0.3.3",
+    "katex": "^0.16.22",
+    "next": "15.4.2",
+    "postcss": "^8.5.6",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-katex": "^3.1.0",
+    "react-markdown": "^8.0.7",
+    "rehype-katex": "^6.0.3",
+    "remark-math": "^5.1.1",
+    "tailwindcss": "^3.4.17"
+  }
+}

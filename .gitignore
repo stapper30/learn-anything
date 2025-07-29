@@ -1,0 +1,23 @@
+# Python (api/)
+api/__pycache__/
+api/env/
+api/.env
+api/uploads/
+
+# Node/Next.js frontend
+learn-anything-frontend/node_modules/
+learn-anything-frontend/.next/
+learn-anything-frontend/out/
+learn-anything-frontend/.env.local
+learn-anything-frontend/.env
+learn-anything-frontend/.env.production
+learn-anything-frontend/.env.development
+
+# Common
+.venv/
+*.pyc
+*.pyo
+*.log
+.DS_Store
+Thumbs.db
+.env
